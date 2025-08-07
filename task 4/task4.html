@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Review Project</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      background: #ebecf0;
+      color: #232946;
+    }
+    header {
+      background-color: #6246ea;
+      color: #fff;
+      padding: 1rem;
+      letter-spacing: 2px;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.2rem;
+      padding-left: 0;
+    }
+    nav a {
+      color: #ffd803;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color .2s;
+    }
+    nav a:hover {
+      color: #f9bc60;
+      text-decoration: underline;
+    }
+    .hero {
+      padding: 2.5rem;
+      text-align: center;
+      background: linear-gradient(45deg, #009688 0%, #60efff 100%);
+      color: #fff;
+      border-radius: 0 0 35px 35px;
+      box-shadow: 0 2px 16px rgba(60,60,60,0.12);
+    }
+    .hero h2 {
+      color: #f9bc60;
+      font-size: 2.2rem;
+      text-shadow: 1px 1px 8px #034d3b55;
+    }
+    section {
+      display: none;
+      padding: 2rem;
+      font-size: 1.1rem;
+    }
+    #books { 
+      background: linear-gradient(120deg, #fff6e0 50%, #ffe4d9 100%);
+      border-radius: 30px;
+      box-shadow: 0 0 24px 4px #fdc5f542;
+    }
+    #about { 
+      background: linear-gradient(135deg, #e8f0fe 60%, #d9e4ff 100%);
+      border-radius: 30px;
+      color: #254441;
+      box-shadow: 0 0 16px 0 #a7bbc7a4;
+    }
+    #contact {
+      background: linear-gradient(90deg, #fff8e1 60%, #ffe991 100%);
+      border-radius: 30px;
+      color: #8c6b25;
+      box-shadow: 0 0 12px #ffcd94cc;
+    }
+    .active {
+      display: block;
+      animation: fadeIn .6s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(32px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+    footer {
+      text-align: center;
+      background: #232946;
+      color: #ffc3a0;
+      padding: 1.2rem;
+      margin-top: 2rem;
+      font-size: 1.03rem;
+      letter-spacing: 1px;
+    }
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.8rem;
+      padding: 1rem 0 0 0;
+    }
+    .book-card {
+      background: linear-gradient(135deg, #f8fafc 60%, #e0c3fc 100%);
+      padding: 1.2rem 1rem;
+      border-radius: 17px;
+      box-shadow: 0 3px 18px rgba(60,50,120,0.10);
+      text-align: center;
+      transition: box-shadow .2s, transform .2s;
+      border: 2.5px solid #6246ea;
+    }
+    .book-card:hover {
+      box-shadow: 0 9px 40px 0 #6246ea33;
+      transform: translateY(-5px) scale(1.04);
+      border-color: #ffd803;
+      background: linear-gradient(135deg, #fff6e0 60%, #b8c6db 100%);
+    }
+    .book-card img {
+      max-width: 100%;
+      height: 220px;
+      border-radius: 11px;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 4px 16px #a0c4ff55;
+      border: 2px solid #ffe4d9;
+    }
+    .book-card h3 {
+      margin-top: 0.5rem;
+      font-size: 1.15rem;
+      color: #6246ea;
+    }
+    .book-card p {
+      margin: 0.5rem 0;
+      color: #4d3561;
+    }
+    .rating {
+      color: #f9bc60;
+      font-weight: bold;
+      font-size: 1.08em;
+      letter-spacing: 1.2px;
+    }
+    select#sort {
+      background: #b8c6db;
+      color: #232946;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1.5px solid #6246ea;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      outline: none;
+      transition: box-shadow .2s;
+    }
+    select#sort:focus { box-shadow: 0 0 4px #ffd80366;}
+    .submit-btn {
+      display: block;
+      margin: 1.8rem auto 0;
+      padding: 0.7rem 2.5rem;
+      background: linear-gradient(90deg, #6246ea, #f9bc60);
+      color: #fff;
+      font-size: 1.14rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px #f9bc6061;
+      letter-spacing: 1.2px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, #f9bc60, #6246ea);
+      color: #232946;
+    }
+    @media (max-width: 600px) {
+      .hero {padding: 1.5rem;}
+      section {padding: 1.2rem;}
+      .book-card img {height: 140px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <h1>📚 <span style="color:#ffd803;">Book Review Project</span></h1>
+      <ul>
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('books')">Books</a></li>
+        <li><a href="#" onclick="showPage('about')">About</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="active hero">
+      <h2>Welcome to Book Review Central 📖</h2>
+      <p>Explore <span style="color:#f9bc60;font-weight:bold;">honest reviews</span> and ratings for popular books!</p>
+    </section>
+      
+    <section id="books">
+      <h2 style="color:#6246ea;">Books</h2>
+      <select id="sort" onchange="sortBooks()">
+        <option value="title">Sort by Title</option>
+        <option value="rating">Sort by Rating</option>
+      </select>
+      <div class="book-grid" id="book-list"></div>
+      <button class="submit-btn" onclick="submitBooks()">Submit</button>
+    </section>
+
+    <section id="about">
+      <h2 style="color:#035956;">About Me</h2>
+      <p>
+        Welcome to <span style="color:#6246ea;">Book Review Central</span> – your one-stop destination for <span style="color:#f9bc60;">honest, insightful</span>, and community-driven book reviews!
+        <br><br>
+Welcome to Book Review Central—your trusted hub for honest and inspiring book reviews! Our platform is dedicated to helping readers discover their next favorite read, connect with fellow book lovers, and cultivate a vibrant community centered around a passion for literature.
+
+At Book Review Central, we believe every book has the potential to spark curiosity, foster understanding, and transform lives. Our goal is to provide insightful reviews, showcase a diverse selection of books, and encourage open sharing of perspectives among readers of all ages and backgrounds.
+
+Whether you love classic novels, gripping thrillers, heartwarming romances, or cutting-edge nonfiction, you’ll find a home here. Explore our curated book selections, read thoughtful reviews, and join conversations that celebrate the joy of reading!        <br><br>
+        Whether you're a fan of <span style="color:#6246ea;font-weight:bold;">timeless classics</span>, thrilling mysteries, heartwarming romances, or cutting-edge science fiction, you'll find something here for you.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2 style="color:#975f1a;">Contact</h2>
+      <p><strong>Name:</strong> <span style="color:#b08d57;">Rohith</span></p>
+      <p><strong>Email:</strong> <span style="color:#b08d57;">sairohithroyal01@gmail.com</span></p>
+    </section>
+  </main>
+   
+  <footer>
+    <p>&copy; 2025 <span style="color:#ffd803;">Book Review Project</span> | Made with <span style="color:#f9bc60;">📘</span></p>
+  </footer>
+
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll("main section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+    }
+
+    const books = [
+      {
+        title: "Lessons in Chemistry by Bonnie Garmus",
+        rating: 4.2,
+        review: "A witty and uplifting story about a female chemist breaking barriers in the 1960s. Inspiring, humorous, and full of heart.",
+        img: "https://m.media-amazon.com/images/I/81vpsIs58WL._SY466_.jpg"
+      },
+      {
+        title: "Fourth Wing by Rebecca Yarros",
+        rating: 4.6,
+        review: "A thrilling fantasy novel filled with dragons, intrigue, and unforgettable characters. Fast-paced and immersive!",
+        img: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1701980900i/61431922.jpg"
+      },
+      {
+        title: "Tomorrow, and Tomorrow, and Tomorrow by Gabrielle Zevin",
+        rating: 4.3,
+        review: "An innovative and emotional exploration of friendship and ambition set in the world of video game designers. Moving and beautifully written.",
+        img: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1636978687i/58784475.jpg"
+      },
+      {
+        title: "Remarkably Bright Creatures by Shelby Van Pelt",
+        rating: 4.4,
+        review: "A charming novel about an unlikely friendship between a grieving woman and a clever octopus. Touching, whimsical, and original.",
+        img: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1651600548i/58733693.jpg"
+      },
+    ];
+
+    function renderBooks(items) {
+      const list = document.getElementById('book-list');
+      list.innerHTML = '';
+      items.forEach(b => {
+        list.innerHTML += `
+          <div class="book-card">
+            <img src="${b.img}" alt="${b.title}" />
+            <h3>${b.title}</h3>
+            <p class="rating"><strong>Rating:</strong> ⭐ ${b.rating}/5</p>
+            <p><strong>Review:</strong> ${b.review}</p>
+          </div>`;
+      });
+    }
+
+    function sortBooks() {
+      const type = document.getElementById('sort').value;
+      let sorted = [...books];
+      if (type === 'rating') {
+        sorted.sort((a, b) => b.rating - a.rating);
+      } else if (type === 'title') {
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+      }
+      renderBooks(sorted);
+    }
+
+    function submitBooks() {
+      alert("Thanks for exploring our book reviews!");
+    }
+
+    renderBooks(books);
+  </script>
+</body>
+</html>
